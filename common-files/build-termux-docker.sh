@@ -35,8 +35,14 @@ $SUDO docker start $CONTAINER_NAME >/dev/null 2>&1 || {
 		$TERMUX_BUILDER_IMAGE_NAME
 }
 
+echo "Running existing container..."
+
 if [ "$#" -eq  "0" ]; then
+    echo "bash"
 	$SUDO docker exec --interactive $DOCKER_TTY $CONTAINER_NAME bash
 else
+    echo '$@'
 	$SUDO docker exec --interactive $DOCKER_TTY $CONTAINER_NAME "$@"
 fi
+
+echo "FIN"

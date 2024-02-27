@@ -1,6 +1,6 @@
 name: QEMU_Test
 
-on: [push]
+on: [fork]
 
 jobs:
   default:
