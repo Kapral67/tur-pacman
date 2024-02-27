@@ -34,7 +34,7 @@ on:
 
 jobs:
   build-arm:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         target_arch: [arm, aarch64]
@@ -160,6 +160,9 @@ jobs:
         if [ ! -z "$package_recipes" ]; then
           ./scripts/lint-packages.sh $package_recipes
         fi
+    - uses: docker/setup-qemu-action@v3
+      with:
+        platforms: arm,arm64
     - name: Build packages
       env:
         ARCH: ${{ matrix.target_arch }}
