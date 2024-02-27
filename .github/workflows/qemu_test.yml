@@ -1,0 +1,12 @@
+name: QEMU_Test
+
+on: [push]
+
+jobs:
+  default:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+      - run: docker run --rm -t arm64v8/ubuntu bash -c "export DEBIAN_FRONTEND=noninteractive; apt-get update; apt-get upgrade -yq; apt-get install neofetch -yq; neofetch"
