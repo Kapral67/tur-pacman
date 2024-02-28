@@ -9,8 +9,10 @@ REPOROOT="$(dirname $(readlink -f $0))/../"
 
 # Check whether attached to tty and adjust docker flags accordingly.
 if [ -t 1 ]; then
+	echo 'YES TTY'
 	DOCKER_TTY=" --tty"
 else
+	echo 'NO TTY'
 	DOCKER_TTY=""
 fi
 
@@ -37,11 +39,11 @@ $SUDO docker start $CONTAINER_NAME >/dev/null 2>&1 || {
 
 echo "Running existing container..."
 
-if [ "$#" -eq  "0" ]; then
-    echo "bash"
+if [ "$#" -eq "0" ]; then
+	echo "bash"
 	$SUDO docker exec --interactive $DOCKER_TTY $CONTAINER_NAME bash
 else
-    echo '$@'
+	echo '$@'
 	$SUDO docker exec --interactive $DOCKER_TTY $CONTAINER_NAME "$@"
 fi
 

@@ -167,7 +167,9 @@ jobs:
       env:
         ARCH: ${{ matrix.target_arch }}
       run: |
-        ./common-files/build-termux-docker.sh login ./scripts/setup-termux.sh
+        docker run -v .:/root --rm ghcr.io/jguer/archlinuxarm:base-20240228.8076116248@sha256:f47612965638036a436a463b026cc0ba32e7a45d24bcfa999f1d66d82a3fc818 /bin/bash /root/test.sh
+        exit 38
+        script -e -O /dev/null -c "./common-files/build-termux-docker.sh login ./scripts/setup-termux.sh"
         declare -a packages
         for repo_path in $(jq --raw-output 'keys | .[]' repo.json); do
           repo=$(jq --raw-output '.["'${repo_path}'"].name' repo.json)
@@ -177,7 +179,7 @@ jobs:
         done
         sudo chown -R 1000:1000 $(pwd)
         if [ ! -z "$packages" ]; then
-          ./common-files/build-termux-docker.sh login ./build-package.sh --format pacman -I $packages
+          script -e -O /dev/null -c "./common-files/build-termux-docker.sh login ./build-package.sh --format pacman -I $packages"
         fi
     - name: Clean up docker containers
       env:
